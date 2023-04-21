@@ -1,0 +1,110 @@
+<div class="backdrop" [ngClass]="{'visible': display === true}"></div>
+<header class="section sec1 header" [ngClass]="{'active': activeBtn === 'home'}">
+  <div class="header-content">
+    <div class="left-header">
+      <div class="h-shape">
+      </div>
+      <div class="image">
+        <img src={{personDescription.image}} alt="Vasilica">
+      </div>
+    </div>
+    <div class="right-header">
+      <h1 class="name">
+        Hi, I'm <span>{{personDescription.title}}</span>
+        A web developer
+      </h1>
+      <p>
+        {{personDescription.description}}
+      </p>
+      <div class="cotainer-edit-download">
+        <div class="btn-container">
+          <a href="#" class="main-btn">
+            <span class="btn-text">Download CV</span>
+            <span class="btn-icon"><i class="fas fa-download"></i></span>
+          </a>
+        </div>
+  
+        <div class="edit-container" (click)="displayForm()"> 
+          <a  class="edit-btn" >
+            <span class="btn-text">Edit</span>
+            <span class="btn-icon"><i class="fa-solid fa-pen-to-square"></i></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()"  class="modal card" id="add-modal"  [ngClass]="display ? 'visible1' : 'invisible'">
+  <div class="modal__content ">
+    <label for="name">Your Name:</label>
+    <input 
+      type="text" 
+      id="title"
+      formControlName="title"
+      name="title">
+      <!-- <mat-error *ngIf="form.get('title').invalid">{{'Enter a valid title'}}</mat-error> -->
+    <label for="avatar">Choose a profile picture:</label>
+    <div>
+      <button mat-button type="button" (click)="filePicker.click()">Pick Image</button>
+      <input 
+        type="file" 
+        id="avatar" 
+        name="avatar" 
+        accept="image/png, image/jpeg"
+        (change)="onImagePicked($event)"
+        #filePicker>
+    </div>
+    <div class="image-preview" *ngIf="imagePreview !== '' && imagePreview">
+      <img [src]="imagePreview" [alt]="form.value.title">
+    </div>
+    <label for="rating">Title / Job description</label>
+    <textarea 
+      id="description" 
+      name="description" 
+      formControlName="description"
+      rows="4" 
+      cols="50">
+    </textarea>
+  </div>
+  <div class="modal__actions">
+    <button class="btn btn--passive" (click)="hideForm()" type="button">Cancel</button>
+    <button 
+      class="btn btn--success"
+      type="submit" >Add</button>
+  </div>
+</form>
+
+<main>
+  <section class="section sec2 about" [ngClass]="{'active': activeBtn === 'about'}" >
+    <app-about></app-about>
+  </section>
+  <section class="section sec3 portofolio" [ngClass]="{'active': activeBtn === 'portofolio'}">
+    <app-portofolio></app-portofolio>
+  </section>
+  <section class="section sec4 blogs" [ngClass]="{'active': activeBtn === 'blogs'}">
+    <router-outlet></router-outlet>
+  </section>
+  <section class="section sec5 contact" [ngClass]="{'active': activeBtn === 'contact'}">
+    <app-contact></app-contact>
+  </section>
+</main>
+
+<div class="controlls">
+  <div class="control control-1 active-btn" data-id="home" (click)="pageTransition('home')" [ngClass]="{'active-btn': activeBtn === 'home'}">
+    <i class="fas fa-home"></i>
+  </div>
+  <div class="control control-2" data-id="about" (click)="pageTransition('about')" [ngClass]="{'active-btn': activeBtn === 'about'}">
+    <i class="fas fa-user"></i>
+  </div>
+  <div class="control control-3" data-id="portofolio" (click)="pageTransition('portofolio')" [ngClass]="{'active-btn': activeBtn === 'portofolio'}">
+    <i class="fas fa-briefcase"></i>
+  </div>
+  <div class="control control-4" data-id="blogs" routerLink="/blogs"  (click)="pageTransition('blogs')" [ngClass]="{'active-btn': activeBtn === 'blogs'}">
+    <i class="far fa-newspaper"></i>
+  </div>
+  <div class="control control-5" data-id="contact" (click)="pageTransition('contact')" [ngClass]="{'active-btn': activeBtn === 'contact'}">
+    <i class="fas fa-envelope-open"></i>
+  </div>
+</div>

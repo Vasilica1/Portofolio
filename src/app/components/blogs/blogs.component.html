@@ -1,0 +1,66 @@
+<div class="backdrop" [ngClass]="{'visible': display === true}"></div>
+<div class="blogs-content">
+  <div class="main-title">
+      <h2>My <span>Blogs</span><span class="bg-text">My Blogs</span></h2>
+  </div>
+
+  <div class="btn-container" (click)="displayForm()"> 
+    <a  class="main-btn" >
+      <span class="btn-text">Add new Blogs</span>
+      <span class="btn-icon"><i class="fa-solid fa-pen-to-square"></i></span>
+    </a>
+  </div>
+  <div class="blogs" *ngIf="blogs.length > 0">
+      <div class="blog" *ngFor="let blog of blogs">
+          <img [src]=imageSrc [alt]=blog.description>
+          <div class="blog-text">
+              <h4>
+                  {{ blog.title }}
+              </h4>
+              <p>
+                  {{ blog.description }}
+              </p>
+          </div>
+          <div class="buttons">
+            <button class="btn-del-edit delete" (click)="onDelete(blog.id)">DELETE</button>
+          </div>
+      </div>
+  </div>
+
+  <div class="displayNone" *ngIf="blogs.length === 0">
+    <p>The are no blogs added! Click the button to add new blogs</p>
+  </div>
+</div>
+
+<form (ngSubmit)="onSubmit()" #f="ngForm" class="modal card" id="add-modal"  [ngClass]="display ? 'visible1' : 'invisible'">
+    <div class="modal__content ">
+      <label for="name">Blog title:</label>
+      <input 
+        type="text" 
+        id="title"
+        ngModel
+        name="title"
+        required
+        #title="ngModel">
+        <mat-error *ngIf="title.invalid && title.touched">{{'Enter a valid title'}}</mat-error>
+      <label for="rating">Blog description(More than 30 letters):</label>
+      <textarea 
+        id="description" 
+        name="description" 
+        rows="4" 
+        cols="50"
+        ngModel
+        required
+        minlength="30"
+        #description="ngModel">
+      </textarea>
+      <mat-error *ngIf="description.invalid && description.touched">{{'The description should have at least 30 characters'}}</mat-error>
+    </div>
+    <div class="modal__actions">
+      <button class="btn btn--passive" (click)="hideForm()" type="button">Cancel</button>
+      <button 
+        class="btn btn--success"
+        type="submit"
+        [disabled]="!f.valid" >Add</button>
+    </div>
+  </form>
